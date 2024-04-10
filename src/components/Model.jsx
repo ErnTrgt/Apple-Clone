@@ -1,8 +1,9 @@
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap/gsap-core";
+import gsap from "gsap";
 import ModelView from "./ModelView";
 import { useEffect, useRef, useState } from "react";
 import { yellowImg } from "../utils";
+
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
@@ -11,22 +12,21 @@ import { animateWithGsapTimeline } from "../utils/animations";
 
 const Model = () => {
     const [size, setSize] = useState("small");
-
     const [model, setModel] = useState({
-        title: "15",
-        color: ["#8F8A81", "#FFE7B9", "#5F6C64"],
+        title: "iPhone 15 Pro in Natural Titanium",
+        color: ["#8F8A81", "#FFE7B9", "#6F6C64"],
         img: yellowImg,
     });
 
-    //camera control for the view
+    // camera control for the model view
     const cameraControlSmall = useRef();
     const cameraControlLarge = useRef();
 
-    //model
+    // model
     const small = useRef(new THREE.Group());
     const large = useRef(new THREE.Group());
 
-    //rotation
+    // rotation
     const [smallRotation, setSmallRotation] = useState(0);
     const [largeRotation, setLargeRotation] = useState(0);
 
@@ -38,19 +38,26 @@ const Model = () => {
                 tl,
                 small,
                 smallRotation,
-                "view1",
+                "#view1",
                 "#view2",
-                { transform: "translateX(-100%)", duration: 2 }
+                {
+                    transform: "translateX(-100%)",
+                    duration: 2,
+                }
             );
         }
+
         if (size === "small") {
             animateWithGsapTimeline(
                 tl,
                 large,
                 largeRotation,
-                "view2",
+                "#view2",
                 "#view1",
-                { transform: "translateX(0)", duration: 2 }
+                {
+                    transform: "translateX(0)",
+                    duration: 2,
+                }
             );
         }
     }, [size]);
@@ -58,6 +65,7 @@ const Model = () => {
     useGSAP(() => {
         gsap.to("#heading", { y: 0, opacity: 1 });
     }, []);
+
     return (
         <section className='common-padding'>
             <div className='screen-max-width'>
@@ -76,6 +84,7 @@ const Model = () => {
                             item={model}
                             size={size}
                         />
+
                         <ModelView
                             index={2}
                             groupRef={large}
@@ -103,10 +112,11 @@ const Model = () => {
                     </div>
 
                     <div className='mx-auto w-full'>
-                        <p className='text-sm  font-light text-center mb-5'>
+                        <p className='text-sm font-light text-center mb-5'>
                             {model.title}
                         </p>
-                        <div className='flex-center '>
+
+                        <div className='flex-center'>
                             <ul className='color-container'>
                                 {models.map((item, i) => (
                                     <li
